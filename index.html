@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0b1420">
 <title>HÜSEYN CHESS — Grandmaster Arena</title>
+<meta name="description" content="Hüseyn Chess — offline chess and private online rooms for two players.">
 
 
 <style>
@@ -66,6 +67,30 @@ button{font-family:'Manrope','DM Sans',sans-serif}
 .dialog{border-radius:12px;background:linear-gradient(145deg,#1c3042,#111c28);border-color:#52677b}
 .dialog h2{font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:600}
 @media(max-width:620px){.hero{margin:33px 0 22px}.hero h1{font-size:61px}.setup{padding:21px 17px 19px}}
+
+
+/* ONLINE ROOMS */
+.online-entry{display:flex;justify-content:center;margin:18px auto 0;max-width:810px}
+.online-entry button,.ghost-btn{border:1px solid #39708e;background:linear-gradient(135deg,#143b55,#10283b);color:#dff6ff;border-radius:10px;padding:13px 22px;font-weight:900;font-size:11px;letter-spacing:.16em;cursor:pointer;transition:.2s}
+.online-entry button:hover,.ghost-btn:hover{transform:translateY(-2px);border-color:#66d4fa;box-shadow:0 10px 25px #009bd52a}
+#onlineHome{display:none;max-width:820px;margin:32px auto 0;animation:rise .35s ease both}
+.online-card{border:1px solid #31536d;border-radius:18px;background:linear-gradient(145deg,#142c40f5,#0c1b29f7);padding:clamp(20px,4vw,34px);box-shadow:0 24px 75px #0006}
+.online-title{font:900 clamp(27px,5vw,42px) Inter,'Segoe UI',sans-serif;letter-spacing:-.04em;color:#f4faff;margin:0 0 8px}
+.online-sub{color:#91acc2;font-size:12px;margin:0 0 24px;line-height:1.6}
+.online-field{width:100%;border:1px solid #35546c;border-radius:10px;background:#0b1b29;color:#effaff;padding:14px 15px;font:600 14px 'Segoe UI',sans-serif;outline:none;margin:7px 0 14px}
+.online-field:focus{border-color:#5bc8ef;box-shadow:0 0 0 3px #46b9e522}
+.online-primary{width:100%;padding:15px;border:0;border-radius:10px;background:linear-gradient(105deg,#5bcaf0,#258ec5);color:#061724;font-weight:950;font-size:12px;letter-spacing:.14em;cursor:pointer;box-shadow:0 10px 28px #078cc344}
+.online-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+.online-action{min-height:112px;text-align:left;border:1px solid #34536b;border-radius:12px;background:linear-gradient(145deg,#18344b,#102437);color:#e8f6ff;padding:18px;cursor:pointer;transition:.2s}
+.online-action:hover{transform:translateY(-3px);border-color:#62ccef;box-shadow:0 12px 28px #0003}
+.online-action b{display:block;font-size:13px;letter-spacing:.08em;margin:0 0 8px}.online-action span{display:block;color:#8daec4;font-size:11px;line-height:1.5}
+.online-subpanel{display:none;margin-top:18px;padding:18px;border:1px solid #2f4d65;border-radius:12px;background:#0d1d2b}
+.room-code{font:900 clamp(20px,4vw,30px) 'Segoe UI',sans-serif;letter-spacing:.13em;color:#7cddff;text-align:center;padding:14px 8px;border:1px dashed #4d829e;border-radius:10px;background:#0a1926;overflow-wrap:anywhere}
+.online-status{font-size:12px;color:#a9c3d5;text-align:center;line-height:1.6;margin:13px 0}
+.online-back{margin-top:17px;background:transparent;border:1px solid #35546c;color:#a9c6da;border-radius:9px;padding:11px 15px;cursor:pointer;font-weight:800;font-size:10px;letter-spacing:.1em}
+.online-error{color:#ffaaa0;font-size:11px;min-height:18px;margin-top:10px}
+.online-badge{display:inline-flex;align-items:center;gap:7px;border:1px solid #286c79;background:#0e3039;color:#9ee9df;border-radius:30px;padding:7px 11px;font-size:9px;font-weight:900;letter-spacing:.1em}
+@media(max-width:600px){#onlineHome{margin-top:16px}.online-actions{grid-template-columns:1fr}.online-action{min-height:90px}}
 
 </style>
 <style id="royal-v2-theme">
@@ -136,7 +161,32 @@ button{font-family:'Manrope','DM Sans',sans-serif}
   <button class="start-btn" id="start"><span data-i18n="start">START GAME</span> &nbsp; ↗</button>
   <p class="setup-note" data-i18n="setupNote">Works offline • No account needed • Your settings stay on this device</p>
  </div>
+ <div class="online-entry"><button id="onlineModeBtn">♟ &nbsp; ONLINE MULTIPLAYER</button></div>
  <div class="home-foot" data-i18n="homeFoot">HÜSEYN CHESS &nbsp;·&nbsp; EST. 2026</div>
+</section>
+<section id="onlineHome">
+ <div class="online-card" id="onlineProfile">
+  <div class="online-badge">● ONLINE ARENA</div>
+  <h2 class="online-title" id="onlineHeading">Play with a friend.</h2>
+  <p class="online-sub" id="onlineIntro">Choose a username first. Then open Rooms to create a private room or join a friend using their room code.</p>
+  <label for="onlineUsername" id="usernameLabel" style="display:block;color:#c6d9e8;font-size:10px;font-weight:900;letter-spacing:.14em">YOUR USERNAME</label>
+  <input class="online-field" id="onlineUsername" maxlength="18" autocomplete="nickname" placeholder="Enter username">
+  <button class="online-primary" id="roomsButton">ROOMS &nbsp; →</button>
+  <button class="online-back" id="onlineBackHome">← BACK</button>
+ </div>
+ <div class="online-card" id="roomsPanel" style="display:none">
+  <div class="online-badge">● ROOM LOBBY</div>
+  <h2 class="online-title" id="roomsHeading">Rooms</h2>
+  <p class="online-sub" id="roomsIntro">Create a private room and share its code, or enter a friend's code to join.</p>
+  <div class="online-actions">
+   <button class="online-action" id="createRoom"><b>＋ CREATE ROOM</b><span>Host a new match and invite a friend with your room code.</span></button>
+   <button class="online-action" id="showJoinRoom"><b>↗ JOIN ROOMS</b><span>Enter a room code shared by another player.</span></button>
+  </div>
+  <div class="online-subpanel" id="createPanel"><div class="online-status" id="createStatus">Connecting to the online service…</div><div class="room-code" id="roomCode">—</div><button class="online-primary" id="copyRoomCode">COPY ROOM CODE</button><div class="online-status" id="waitingStatus">Waiting for your opponent to join…</div></div>
+  <div class="online-subpanel" id="joinPanel"><label for="roomCodeInput" id="roomCodeLabel" style="display:block;color:#c6d9e8;font-size:10px;font-weight:900;letter-spacing:.14em">ROOM CODE</label><input class="online-field" id="roomCodeInput" maxlength="80" placeholder="Paste room code"><button class="online-primary" id="joinRoom">JOIN ROOM &nbsp; →</button></div>
+  <div class="online-error" id="onlineError" role="status"></div>
+  <button class="online-back" id="roomsBack">← BACK TO PROFILE</button>
+ </div>
 </section>
 <section id="game">
  <div class="game-main"><div class="board-card">
@@ -251,6 +301,7 @@ const i18n = {
  az:{offline:'LOCAL OYUN',kicker:'SƏBR VƏ DƏQİQLİK OYUNU',heroTitle:'HÜSEYN <em>CHESS</em>',heroSub:'Taxta hazırdır. Gediş səndədir. Qələbəni qazan.',sideLabel:'RƏNGİNİ SEÇ',white:'AĞ',random:'AĞ VƏ YA QARA',black:'QARA',difficulty:'ÇƏTİNLİK',extreme:'Extreme',hard:'Hard',normal:'Normal',easy:'Easy',veryeasy:'Very Easy',time:'VAХT REJİMİ',infinite:'Sonsuz',ten:'10 dəq.',five:'5 dəq.',three:'3 dəq.',one:'1 dəq.',start:'OYUNA BAŞLA',setupNote:'İnternetsiz işləyir • Hesab tələb etmir • Bütün gedişlər cihazında hesablanır',homeFoot:'HÜSEYN CHESS · 2026',boardHint:'Fiquru seç, sonra gedəcəyi xanaya toxun.',boardStyle:'MAVİ MƏRMƏR · KLASSİK FİQURLAR',gameStatus:'OYUNUN VƏZİYYƏTİ',moveHistory:'GEDİŞLƏR',noMoves:'İlk gediş sənindir.',captured:'GÖTÜRÜLMÜŞ FİQURLAR',capturedNote:'Bu oyunda götürülən fiqurlar',controls:'İDARƏETMƏ',undo:'↶ GERİ',flip:'⇅ TAXTANI ÇEVİR',newGame:'＋ YENİ OYUN',backMenu:'← MENYUYA QAYIT',engineFoot:'Daxili şahmat mühərriki · Tamamilə cihazında işləyir',gameComplete:'OYUN BİTDİ',playAgain:'YENİDƏN OYNA',backToMenu:'MENYUYA QAYIT',promotion:'FİQUR DƏYİŞMƏSİ',promoteTo:'Fiqur seç',promoteHint:'Piyada son xanaya çatdı.',yourTurn:'Sənin növbəndir',engineTurn:'Rəqib düşünür…',engineLoading:'Şahmat mühərriki hazırlanır…',engineReady:'Rəqib hazırdır. Sənin gedişin.',yourMove:'Gedişini et. Fiqur seç.',check:'Şah! Şahını qoru.',checkmate:'Mat!',draw:'Heç-heçə. Yaxşı oyun!',engineError:'Daxili rəqib aktivdir.',fallbackReady:'Ehtiyat rəqib hazırdır. Oyun davam edə bilər.',fallbackTurn:'Rəqib gediş axtarır…',chessError:'Şahmat qaydaları modulu açılmadı. Səhifəni yenidən başlad.',youWon:'Əla oyun! Rəqibini məğlub etdin.',youLost:'Bu dəfə rəqib qalib gəldi. Bir də sına.',drawResult:'Oyun heç-heçə başa çatdı.',timeUp:'Vaxtın bitdi.',engineTimeUp:'Rəqibin vaxtı bitdi.',victory:'QƏLƏBƏ',defeat:'MAT',drawTitle:'HEÇ-HEÇƏ',computer:'ROYAL ENGINE',opponent:'KOMPÜTER RƏQİBİ',you:'HÜSEYN',playing:'SƏN OYNAYIRSAN',waiting:'Növbəti gediş gözlənilir…',engineFailedTitle:'MÜHƏRRİK XƏTASI',startFirst:'Əvvəlcə yeni oyun başlat.'},
  en:{offline:'LOCAL PLAY',kicker:'A GAME OF PATIENCE & PRECISION',heroTitle:'HÜSEYN <em>CHESS</em>',heroSub:'Your board is ready. Make the move. Earn the win.',sideLabel:'CHOOSE YOUR SIDE',white:'WHITE',random:'WHITE OR BLACK',black:'BLACK',difficulty:'DIFFICULTY',extreme:'Extreme',hard:'Hard',normal:'Normal',easy:'Easy',veryeasy:'Very Easy',time:'TIME CONTROL',infinite:'Infinite',ten:'10 min',five:'5 min',three:'3 min',one:'1 min',start:'START GAME',setupNote:'Works offline • No account needed • Every move is calculated on this device',homeFoot:'HÜSEYN CHESS · 2026',boardHint:'Select a piece, then choose its destination.',boardStyle:'BLUE MARBLE · CLASSIC SET',gameStatus:'GAME STATUS',moveHistory:'MOVE HISTORY',noMoves:'The first move is yours.',captured:'CAPTURED PIECES',capturedNote:'Pieces taken during this game',controls:'CONTROLS',undo:'↶ UNDO',flip:'⇅ FLIP BOARD',newGame:'＋ NEW GAME',backMenu:'← BACK TO MENU',engineFoot:'Built-in chess engine · Runs entirely on this device',gameComplete:'GAME COMPLETE',playAgain:'PLAY AGAIN',backToMenu:'BACK TO MENU',promotion:'PROMOTION',promoteTo:'Choose a piece',promoteHint:'Your pawn reached the final rank.',yourTurn:'Your turn',engineTurn:'Opponent is thinking…',engineLoading:'Preparing chess engine…',engineReady:'Opponent ready. Your move.',yourMove:'Your move. Choose a piece.',check:'Check! Protect your king.',checkmate:'Checkmate!',draw:'Draw. Well played!',engineError:'The built-in opponent is active.',fallbackReady:'Backup opponent ready. You can play.',fallbackTurn:'Opponent is choosing a move…',chessError:'The chess rules module did not start. Reload the page.',youWon:'Excellent play! You defeated your opponent.',youLost:'Your opponent wins this round. Try again.',drawResult:'The game ended in a draw.',timeUp:'Your time has run out.',engineTimeUp:'The opponent ran out of time.',victory:'VICTORY',defeat:'CHECKMATE',drawTitle:'DRAW',computer:'ROYAL ENGINE',opponent:'COMPUTER OPPONENT',you:'HÜSEYN',playing:'YOU ARE PLAYING',waiting:'Waiting for the next move…',engineFailedTitle:'ENGINE ERROR',startFirst:'Start a new game first.'}
 };
+let gameMode='local',onlineUsername='',remoteUsername='Opponent',peer=null,peerConn=null,roomRole='',roomCodeValue='',peerScriptPromise=null,onlineTimeout=null,onlineHandshakeDone=false;
 let lang='az',selectedColor='w',level='normal',timeLimit=0,player='w',game=null,selected=null,legal=[],lastMove=null,flipped=false,engine=null,engineReady=false,thinking=false,clockTimer=null,remaining={w:0,b:0},lastTick=0,audioCtx=null,engineBlobUrl=null,pendingPromotion=null,engineProgress=0,engineLoadTimer=null,fallbackMode=false,chessLoadPromise=null;
 const symbols={w:{k:'♔',q:'♕',r:'♖',b:'♗',n:'♘',p:'♙'},b:{k:'♚',q:'♛',r:'♜',b:'♝',n:'♞',p:'♟'}};
 const engineLevels={veryeasy:{skill:0,depth:2,time:160},easy:{skill:3,depth:5,time:350},normal:{skill:8,depth:9,time:850},hard:{skill:15,depth:14,time:1800},extreme:{skill:20,depth:20,time:3800}};
@@ -259,7 +310,7 @@ function installChessCompatibility(){return typeof window.Chess==='function'}
 function createChessGame(){return new Chess()}
 function ensureChessLibrary(){return Promise.resolve(installChessCompatibility())}
 
-function setLang(next){lang=next;document.documentElement.lang=next;document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.dataset.lang===next));document.querySelectorAll('[data-i18n]').forEach(el=>{const key=el.dataset.i18n;if(i18n[lang][key])el.innerHTML=i18n[lang][key]});if(game)updateStatus();if(engine&&!engineReady&&!thinking)$('#message').textContent=t('engineReady');if(game){updateNames();renderMoves()}}
+function setLang(next){lang=next;$('#onlineModeBtn').textContent=next==='az'?'♟  ONLAYN OYUN':'♟  ONLINE MULTIPLAYER';$('#onlineHeading').textContent=next==='az'?'Dostunla oyna.':'Play with a friend.';$('#onlineIntro').textContent=next==='az'?'Əvvəlcə username seç. Sonra Rooms bölməsindən otaq yarat və ya dostunun kodu ilə qoşul.':'Choose a username first. Then open Rooms to create a private room or join a friend using their room code.';$('#usernameLabel').textContent=next==='az'?'İSTİFADƏÇİ ADIN':'YOUR USERNAME';$('#onlineUsername').placeholder=next==='az'?'İstifadəçi adını yaz':'Enter username';$('#roomsButton').textContent=next==='az'?'OTAQLAR  →':'ROOMS  →';$('#roomsHeading').textContent=next==='az'?'Otaqlar':'Rooms';$('#roomsIntro').textContent=next==='az'?'Şəxsi otaq yarat və kodu dostuna göndər, yaxud dostunun kodunu daxil et.':'Create a private room and share its code, or enter a friend’s code to join.';$('#createRoom').innerHTML=next==='az'?'<b>＋ OTAQ YARAT</b><span>Yeni oyun aç və otaq kodunu dostunla paylaş.</span>':'<b>＋ CREATE ROOM</b><span>Host a new match and invite a friend with your room code.</span>';$('#showJoinRoom').innerHTML=next==='az'?'<b>↗ OTAQLARA QOŞUL</b><span>Dostunun göndərdiyi otaq kodunu daxil et.</span>':'<b>↗ JOIN ROOMS</b><span>Enter a room code shared by another player.</span>';$('#roomCodeLabel').textContent=next==='az'?'OTAQ KODU':'ROOM CODE';$('#roomCodeInput').placeholder=next==='az'?'Otaq kodunu daxil et':'Paste room code';$('#joinRoom').textContent=next==='az'?'OTAĞA QOŞUL  →':'JOIN ROOM  →';$('#copyRoomCode').textContent=next==='az'?'OTAQ KODUNU KOPYALA':'COPY ROOM CODE';$('#roomsBack').textContent=next==='az'?'← PROFİLƏ QAYIT':'← BACK TO PROFILE';$('#onlineBackHome').textContent=next==='az'?'← GERİ':'← BACK';lang=next;document.documentElement.lang=next;document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.dataset.lang===next));document.querySelectorAll('[data-i18n]').forEach(el=>{const key=el.dataset.i18n;if(i18n[lang][key])el.innerHTML=i18n[lang][key]});if(game)updateStatus();if(engine&&!engineReady&&!thinking)$('#message').textContent=t('engineReady');if(game){updateNames();renderMoves()}}
 document.querySelectorAll('.lang-btn').forEach(b=>b.addEventListener('click',()=>setLang(b.dataset.lang)));
 function markChoice(selector,attribute,value,buttonClass){document.querySelectorAll(selector+' .'+buttonClass).forEach(b=>b.classList.toggle('active',b.dataset[attribute]===String(value)))}
 document.querySelectorAll('.colors .choice').forEach(b=>b.addEventListener('click',()=>{selectedColor=b.dataset.color;markChoice('.colors','color',selectedColor,'choice')}));
@@ -268,7 +319,16 @@ document.querySelectorAll('#times .option').forEach(b=>b.addEventListener('click
 $('#start').addEventListener('click',startGame);$('#newGame').addEventListener('click',startGame);$('#again').addEventListener('click',startGame);
 $('#toMenu').addEventListener('click',backToMenu);$('#backMenu').addEventListener('click',backToMenu);
 $('#undo').addEventListener('click',undoMove);$('#flip').addEventListener('click',()=>{flipped=!flipped;renderBoard()});
-function backToMenu(){stopClock();stopEngine();$('#overlay').style.display='none';$('#promotionOverlay').style.display='none';$('#game').style.display='none';$('#home').style.display='grid';game=null;thinking=false}
+$('#onlineModeBtn').addEventListener('click',()=>{ $('#home').style.display='none';$('#onlineHome').style.display='block';$('#onlineProfile').style.display='block';$('#roomsPanel').style.display='none';$('#onlineError').textContent='';$('#onlineUsername').focus(); });
+$('#onlineBackHome').addEventListener('click',()=>{ $('#onlineHome').style.display='none';$('#home').style.display='grid'; });
+$('#roomsButton').addEventListener('click',()=>{onlineUsername=$('#onlineUsername').value.trim();if(!onlineUsername){$('#onlineError').textContent=lang==='az'?'Əvvəlcə username yaz.':'Enter a username first.';return}$('#onlineError').textContent='';$('#onlineProfile').style.display='none';$('#roomsPanel').style.display='block';});
+$('#roomsBack').addEventListener('click',()=>{closePeer();$('#roomsPanel').style.display='none';$('#onlineProfile').style.display='block';$('#createPanel').style.display='none';$('#joinPanel').style.display='none';$('#onlineError').textContent='';});
+$('#createRoom').addEventListener('click',createOnlineRoom);
+$('#showJoinRoom').addEventListener('click',()=>{$('#joinPanel').style.display='block';$('#createPanel').style.display='none';$('#onlineError').textContent='';$('#roomCodeInput').focus()});
+$('#joinRoom').addEventListener('click',joinOnlineRoom);
+$('#copyRoomCode').addEventListener('click',async()=>{if(!roomCodeValue){setOnlineError(lang==='az'?'Əvvəlcə otaq yarat.':'Create a room first.');return}try{if(navigator.clipboard&&window.isSecureContext)await navigator.clipboard.writeText(roomCodeValue);else{const temp=document.createElement('textarea');temp.value=roomCodeValue;document.body.appendChild(temp);temp.select();document.execCommand('copy');temp.remove()}$('#copyRoomCode').textContent=lang==='az'?'KOPYALANDI ✓':'COPIED ✓'}catch(e){setOnlineError(lang==='az'?'Kodu otaq sahəsindən əl ilə kopyala: '+roomCodeValue:'Copy this room code manually: '+roomCodeValue)}});
+
+function backToMenu(){stopClock();stopEngine();if(gameMode==='online'){if(peerConn&&peerConn.open)try{peerConn.send({type:'leave'})}catch(e){}closePeer();$('#onlineHome').style.display='block';$('#onlineProfile').style.display='none';$('#roomsPanel').style.display='block';$('#createPanel').style.display='none';$('#joinPanel').style.display='none'}else $('#home').style.display='grid';$('#overlay').style.display='none';$('#promotionOverlay').style.display='none';$('#game').style.display='none';game=null;thinking=false;gameMode='local'}
 async function startGame(){
  const startButton=$('#start');
  if(!installChessCompatibility()){
@@ -278,13 +338,14 @@ async function startGame(){
   startButton.disabled=false;startButton.classList.remove('loading');if(label)label.textContent=t('start');
   if(!loaded){const note=$('.setup-note');if(note)note.textContent=t('chessError');return;}
  }
- stopClock();stopEngine();
+ stopClock();stopEngine();gameMode='local';$('#onlineHome').style.display='none';
  game=createChessGame();player=selectedColor==='random'?(Math.random()<.5?'w':'b'):selectedColor;selected=null;legal=[];lastMove=null;flipped=player==='b';thinking=false;pendingPromotion=null;remaining={w:timeLimit,b:timeLimit};engineReady=false;fallbackMode=false;engineProgress=0;
  $('#home').style.display='none';$('#game').style.display='grid';$('#overlay').style.display='none';$('#promotionOverlay').style.display='none';$('#message').textContent=t('engineReady');$('#engineMeter').style.width='100%';updateNames();updateClocks();renderBoard();renderMoves();renderCaptured();updateStatus();
  initEngine();startClock();
 }
-function updateNames(){const opponent=player==='w'?'top':'bottom',you=player==='w'?'bottom':'top';$('#'+opponent+'Name').textContent=t('computer');$('#'+opponent+'Caption').textContent=t('opponent');$('#'+you+'Name').textContent=t('you');$('#'+you+'Caption').textContent=t('playing');$('#'+opponent+'Avatar').textContent='♞';$('#'+you+'Avatar').textContent='♔'}
+function updateNames(){const opponent=player==='w'?'top':'bottom',you=player==='w'?'bottom':'top';$('#'+opponent+'Name').textContent=gameMode==='online'?remoteUsername:t('computer');$('#'+opponent+'Caption').textContent=gameMode==='online'?(lang==='az'?'ONLAYN RƏQİB':'ONLINE OPPONENT'):t('opponent');$('#'+you+'Name').textContent=gameMode==='online'?onlineUsername:t('you');$('#'+you+'Caption').textContent=gameMode==='online'?(lang==='az'?'SƏN':'YOU'):t('playing');$('#'+opponent+'Avatar').textContent='♞';$('#'+you+'Avatar').textContent='♔';$('#undo').disabled=gameMode==='online'||!game||!game.history().length;$('#newGame').disabled=gameMode==='online'}
 function initEngine(){
+ if(gameMode==='online'){engineReady=true;fallbackMode=false;$('#engineMeter').style.width='100%';$('#message').textContent=lang==='az'?'Rəqib qoşuldu. Oyun başlaya bilər.':'Opponent connected. The game is ready.';return}
  // A built-in minimax opponent starts instantly and works without an internet connection.
  engineReady=true;fallbackMode=true;engineProgress=100;
  $('#engineMeter').style.width='100%';
@@ -315,6 +376,7 @@ function onEngineMessage(line){
  }
 }
 function requestBotMove(){
+ if(gameMode==='online')return;
  if(!game||game.isGameOver()||thinking||game.turn()===player)return;
  thinking=true;selected=null;legal=[];$('#turnText').textContent=t('engineTurn');$('#turnDot').style.background='#d7b980';$('#engineMeter').style.width='12%';renderBoard();
  if(fallbackMode||!engineReady){$('#message').textContent=t('fallbackTurn');setTimeout(playFallbackMove,260);return}
@@ -348,6 +410,142 @@ function playFallbackMove(){
  const best=searchBestMove(game.turn(),cfg.depth,cfg.time);thinking=false;
  if(best){const move=game.move({from:best.from,to:best.to,promotion:best.promotion||'q'});if(move){lastMove=move;selected=null;legal=[];playSound(move.captured?'capture':game.isCheck()?'check':'move');renderBoard();renderMoves();renderCaptured();updateStatus()}}
 }
+
+function clearOnlineTimeout(){if(onlineTimeout){clearTimeout(onlineTimeout);onlineTimeout=null}}
+function loadPeerJS(){
+ if(window.Peer)return Promise.resolve();
+ if(peerScriptPromise)return peerScriptPromise;
+ peerScriptPromise=(async()=>{
+  const urls=[
+   'https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js',
+   'https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js'
+  ];
+  let lastError;
+  for(const src of urls){
+   try{await new Promise((resolve,reject)=>{
+    const script=document.createElement('script');let timer=setTimeout(()=>{script.remove();reject(new Error('PeerJS CDN timeout'))},10000);
+    script.src=src;script.async=true;script.crossOrigin='anonymous';
+    script.onload=()=>{clearTimeout(timer);window.Peer?resolve():reject(new Error('PeerJS global missing'))};
+    script.onerror=()=>{clearTimeout(timer);script.remove();reject(new Error('PeerJS CDN unavailable'))};
+    document.head.appendChild(script);
+   });
+   if(window.Peer)return;
+   }catch(error){lastError=error}
+  }
+  throw lastError||new Error('PeerJS could not be loaded');
+ })().catch(error=>{peerScriptPromise=null;throw error});
+ return peerScriptPromise;
+}
+function setOnlineError(message){$('#onlineError').textContent=message}
+function closePeer(){clearOnlineTimeout();onlineHandshakeDone=false;try{if(peerConn){peerConn.close();peerConn=null}}catch(e){}try{if(peer){if(peer.__huseynRecovery&&peer.__huseynRecovery.timer)clearTimeout(peer.__huseynRecovery.timer);peer.destroy();peer=null}}catch(e){}roomRole='';roomCodeValue=''}
+function onlineErrorText(error){const code=error&&error.type;const az={'peer-unavailable':'Bu otaq tapılmadı və ya sahibi bağlantını bağlayıb.','network':'Şəbəkə bağlantısı alınmadı.','unavailable-id':'Bu otaq kodu artıq istifadə olunur. Yeni otaq yarat.','browser-incompatible':'Brauzer WebRTC bağlantısını dəstəkləmir.','server-error':'Onlayn siqnal serveri hazırda cavab vermir. Bir az sonra yoxla.','socket-error':'Onlayn serverə qoşulmaq mümkün olmadı.','webrtc':'İki cihaz arasında birbaşa bağlantı yaradıla bilmədi. Fərqli şəbəkə ilə yoxla.'};return lang==='az'?(az[code]||'Onlayn bağlantı qurulmadı. İnterneti yoxla və yenidən cəhd et.'):(error&&error.message?error.message:'Could not connect. Check your internet and try again.')}
+function makePeer(){
+ // Use the current PeerJS Cloud defaults instead of hard-coding transport details.
+ // PeerJS documents 0.peerjs.com:443 as its default cloud signaling service.
+ return new Peer({debug:1,config:{sdpSemantics:'unified-plan',iceServers:[
+  {urls:'stun:stun.l.google.com:19302'},
+  {urls:'stun:stun1.l.google.com:19302'}
+ ]}});
+}
+function watchPeerSignaling(instance){
+ const state={timer:null,attempts:0};
+ instance.__huseynRecovery=state;
+ const clearRetry=()=>{if(state.timer){clearTimeout(state.timer);state.timer=null}};
+ const scheduleReconnect=()=>{
+  if(instance!==peer||instance.destroyed||!instance.disconnected||state.timer)return;
+  state.timer=setTimeout(()=>{
+   state.timer=null;
+   if(instance!==peer||instance.destroyed||!instance.disconnected)return;
+   state.attempts++;
+   try{instance.reconnect()}catch(error){/* next retry below */}
+   if(state.attempts<8 && instance===peer && !instance.destroyed){
+    state.timer=setTimeout(()=>{state.timer=null;if(instance===peer&&!instance.destroyed&&instance.disconnected)scheduleReconnect()},Math.min(15000,1000*Math.pow(2,state.attempts)));
+   }
+  },900);
+ };
+ instance.on('disconnected',()=>{
+  if(instance!==peer||instance.destroyed)return;
+  setOnlineError(lang==='az'?'Siqnal bağlantısı kəsildi. Avtomatik yenidən qoşuluruq…':'Signaling link dropped. Reconnecting automatically…');
+  scheduleReconnect();
+ });
+ instance.on('open',()=>{
+  if(instance!==peer)return;
+  state.attempts=0;clearRetry();
+  if($('#onlineError').textContent.toLowerCase().includes('reconnect')||$('#onlineError').textContent.includes('yenidən qoşul'))setOnlineError('');
+ });
+ instance.on('error',err=>{
+  if(instance!==peer||instance.destroyed)return;
+  if(['network','socket-error','socket-closed'].includes(err&&err.type)){
+   setOnlineError(lang==='az'?'Siqnal serverində şəbəkə problemi var. Yenidən qoşulmağa çalışırıq…':'Signaling network issue. Trying to reconnect…');
+   if(instance.disconnected)scheduleReconnect();
+  }
+ });
+}
+function showOnlineGame(color,opponentName){
+ stopClock();stopEngine();gameMode='online';remoteUsername=opponentName||'Opponent';player=color;game=createChessGame();selected=null;legal=[];lastMove=null;flipped=color==='b';thinking=false;pendingPromotion=null;remaining={w:timeLimit,b:timeLimit};engineReady=true;fallbackMode=false;
+ $('#onlineHome').style.display='none';$('#home').style.display='none';$('#game').style.display='grid';$('#overlay').style.display='none';$('#promotionOverlay').style.display='none';$('#message').textContent=lang==='az'?'Onlayn oyun başladı.':'Online game started.';$('#engineMeter').style.width='100%';updateNames();updateClocks();renderBoard();renderMoves();renderCaptured();updateStatus();startClock();
+}
+function attachPeerConnection(conn,isHost){
+ if(peerConn&&peerConn!==conn&&peerConn.open){conn.close();return}
+ peerConn=conn;let connected=false;
+ conn.on('open',()=>{
+  connected=true;clearOnlineTimeout();
+  $('#waitingStatus').textContent=lang==='az'?'Bağlantı quruldu. Oyunçu təsdiqlənir…':'Connection established. Confirming player…';
+  if(!isHost){conn.send({type:'hello',protocol:1,username:onlineUsername})}
+  onlineTimeout=setTimeout(()=>{if(!onlineHandshakeDone){setOnlineError(lang==='az'?'Otaq cavab vermədi. Kodun düzgünlüyünü yoxla və yenidən qoşul.':'The room did not respond. Check the code and try again.');}},20000);
+ });
+ conn.on('data',data=>{
+  if(!data||typeof data!=='object')return;
+  if(data.type==='hello'&&isHost){
+   if(onlineHandshakeDone)return;
+   onlineHandshakeDone=true;clearOnlineTimeout();remoteUsername=String(data.username||'Opponent').replace(/[<>]/g,'').slice(0,18)||'Opponent';
+   showOnlineGame('w',remoteUsername);
+   conn.send({type:'start',protocol:1,host:onlineUsername,guestColor:'b',time:timeLimit,fen:game.fen()});
+   $('#message').textContent=lang==='az'?'Rəqib qoşuldu. Sənin gedişindir.':'Opponent connected. Your move.';
+   return;
+  }
+  if(data.type==='start'&&!isHost){
+   if(onlineHandshakeDone)return;
+   if(data.protocol!==1){setOnlineError('Incompatible room version. Reload both pages.');return}
+   onlineHandshakeDone=true;clearOnlineTimeout();remoteUsername=String(data.host||'Opponent').replace(/[<>]/g,'').slice(0,18)||'Opponent';timeLimit=Number(data.time)||0;
+   showOnlineGame('b',remoteUsername);
+   if(data.fen&&data.fen!==game.fen()){setOnlineError(lang==='az'?'Başlanğıc mövqeyi uyğun gəlmədi.':'Initial board state mismatch.');}
+   $('#message').textContent=lang==='az'?'Rəqib qoşuldu. Ağ fiqurların gedişini gözlə.':'Connected. Waiting for White to move.';
+   return;
+  }
+  if(data.type==='move'&&gameMode==='online'&&game&&!game.isGameOver()){
+   if(game.turn()===player)return;
+   if(Number.isInteger(data.ply)&&data.ply!==game.history().length){setOnlineError(lang==='az'?'Gediş sinxronlaşmadı. Otaqdan çıxıb yenidən qoşul.':'Move sequence is out of sync. Rejoin the room.');return}
+   const move=game.move({from:data.from,to:data.to,promotion:data.promotion||'q'});
+   if(move){lastMove=move;selected=null;legal=[];playSound(move.captured?'capture':game.isCheck()?'check':'move');renderBoard();renderMoves();renderCaptured();updateStatus();conn.send({type:'ack',ply:game.history().length})}
+   else setOnlineError(lang==='az'?'Rəqibdən etibarsız gediş gəldi.':'Received an invalid opponent move.');
+   return;
+  }
+  if(data.type==='leave'&&gameMode==='online'){$('#message').textContent=lang==='az'?'Rəqib oyundan çıxdı.':'Opponent left the game.';return}
+ });
+ conn.on('close',()=>{clearOnlineTimeout();if(gameMode==='online')$('#message').textContent=lang==='az'?'Rəqib bağlantını kəsdi.':'Opponent disconnected.';else if(connected)setOnlineError(lang==='az'?'Bağlantı bağlandı.':'Connection closed.')});
+ conn.on('error',err=>setOnlineError(onlineErrorText(err)));
+}
+async function createOnlineRoom(){
+ closePeer();$('#createPanel').style.display='block';$('#joinPanel').style.display='none';$('#roomCode').textContent='…';$('#createStatus').textContent=lang==='az'?'Onlayn siqnal serverinə qoşulur…':'Connecting to the online signaling server…';$('#waitingStatus').textContent=lang==='az'?'Dostunun otağa qoşulmasını gözlə.':'Waiting for your opponent to join…';setOnlineError('');roomRole='host';
+ try{
+  await loadPeerJS();peer=makePeer();watchPeerSignaling(peer);let opened=false;
+  onlineTimeout=setTimeout(()=>{if(!opened)setOnlineError(lang==='az'?'Siqnal serverinə qoşulmaq alınmadı. VPN/proxy-ni söndürüb yenidən yoxla və ya bir az sonra cəhd et.':'Could not reach the signaling service. Check VPN/proxy or try again shortly.');},20000);
+  peer.on('open',id=>{if(!opened){opened=true;clearOnlineTimeout();roomCodeValue=id;$('#roomCode').textContent=id;$('#createStatus').textContent=lang==='az'?'Otaq yaradıldı. Bu kodu dostuna göndər:':'Room created. Share this exact code with your friend:'}});
+  peer.on('connection',conn=>{if(peerConn&&peerConn.open){conn.close();return}attachPeerConnection(conn,true);$('#waitingStatus').textContent=lang==='az'?'Rəqib bağlantısı qurulur…':'Establishing opponent connection…'});
+  peer.on('error',err=>setOnlineError(onlineErrorText(err)));
+ }catch(err){clearOnlineTimeout();setOnlineError(lang==='az'?'PeerJS kitabxanası yüklənmədi. İnterneti yoxla və ya CDN bloklanıb.':'Could not load PeerJS. Check your internet or CDN access.');}
+}
+async function joinOnlineRoom(){
+ const code=$('#roomCodeInput').value.trim();if(!code){setOnlineError(lang==='az'?'Otaq kodunu daxil et.':'Enter a room code.');return}
+ closePeer();setOnlineError(lang==='az'?'Otağa qoşulur…':'Connecting to room…');
+ try{
+  await loadPeerJS();peer=makePeer();watchPeerSignaling(peer);let peerReady=false,connReady=false,joinStarted=false;
+  onlineTimeout=setTimeout(()=>{if(!peerReady)setOnlineError(lang==='az'?'Siqnal serverinə qoşulmaq alınmadı. VPN/proxy-ni söndürüb yenidən yoxla və ya bir az sonra cəhd et.':'Could not reach the signaling service. Check VPN/proxy or try again shortly.');else if(!connReady)setOnlineError(lang==='az'?'Otaq tapılmadı və ya host hazır deyil. Otaq kodunu yoxla.':'Room not found or host is not ready. Check the room code.');},25000);
+  peer.on('open',()=>{peerReady=true;if(joinStarted)return;joinStarted=true;const conn=peer.connect(code,{reliable:true,serialization:'json'});attachPeerConnection(conn,false);conn.on('open',()=>{connReady=true;clearOnlineTimeout()})});
+  peer.on('error',err=>{setOnlineError(onlineErrorText(err));if(err&&err.type==='peer-unavailable')clearOnlineTimeout()});
+ }catch(err){clearOnlineTimeout();setOnlineError(lang==='az'?'Onlayn kitabxana yüklənmədi. İnterneti yoxla.':'Online library failed to load. Check your internet.');}
+}
 function pieceMarkup(piece,square){return `<svg class="piece ${piece.color==='w'?'white-piece':'black-piece'} ${lastMove&&lastMove.to===square?'just-moved':''}" viewBox="0 0 100 100" aria-label="${piece.color==='w'?'White':'Black'} ${piece.type}"><use href="#${piece.color}-${piece.type}"/></svg>`}
 function renderBoard(){
  if(!game)return;const board=$('#board');board.innerHTML='';const ranks=flipped?[1,2,3,4,5,6,7,8]:[8,7,6,5,4,3,2,1],files=flipped?['h','g','f','e','d','c','b','a']:['a','b','c','d','e','f','g','h'];const checked=game.isCheck()?findKing(game.turn()):null;
@@ -368,11 +566,11 @@ function onSquare(square){
  if(piece&&piece.color===player){selected=square;legal=game.moves({square,verbose:true});playSound('select')}else{selected=null;legal=[]}renderBoard()
 }
 function showPromotion(){const box=$('#promotionChoices');box.innerHTML='';['q','r','b','n'].forEach(type=>{const btn=document.createElement('button');btn.className='promo-piece';btn.setAttribute('aria-label',type);btn.innerHTML=pieceMarkup({type,color:player},'');btn.addEventListener('click',()=>{const p=pendingPromotion;pendingPromotion=null;$('#promotionOverlay').style.display='none';applyPlayerMove(p.from,p.to,type)});box.appendChild(btn)});$('#promotionOverlay').style.display='grid'}
-function applyPlayerMove(from,to,promotion='q'){let move;try{move=game.move({from,to,promotion})}catch(error){}if(!move)return;lastMove=move;selected=null;legal=[];playSound(move.captured?'capture':game.isCheck()?'check':'move');renderBoard();renderMoves();renderCaptured();updateStatus();if(!game.isGameOver())setTimeout(requestBotMove,180)}
+function applyPlayerMove(from,to,promotion='q'){if(gameMode==='online'&&(!peerConn||!peerConn.open)){setOnlineError(lang==='az'?'Rəqiblə bağlantı yoxdur. Gediş göndərilə bilmədi.':'Opponent connection is offline. Move was not sent.');return}let move;try{move=game.move({from,to,promotion})}catch(error){}if(!move)return;lastMove=move;selected=null;legal=[];playSound(move.captured?'capture':game.isCheck()?'check':'move');renderBoard();renderMoves();renderCaptured();updateStatus();if(gameMode==='online'){peerConn.send({type:'move',from,to,promotion,ply:game.history().length-1,username:onlineUsername});return}if(!game.isGameOver())setTimeout(requestBotMove,180)}
 function undoMove(){if(!game||thinking)return;if(game.history().length){game.undo();if(game.history().length)game.undo();lastMove=null;selected=null;legal=[];renderBoard();renderMoves();renderCaptured();updateStatus();if(game.turn()!==player)requestBotMove()}}
 function renderMoves(){if(!game)return;const hist=game.history();if(!hist.length){$('#moveList').innerHTML=`<div class="empty-moves">${t('noMoves')}</div>`;return}let html='';for(let i=0;i<hist.length;i+=2){const isLatest=i+1>=hist.length;html+=`<div class="move-row"><span class="move-no">${Math.floor(i/2)+1}.</span><span class="move-san ${i===hist.length-1?'latest':''}">${hist[i]||''}</span><span class="move-san ${i+1===hist.length-1?'latest':''}">${hist[i+1]||''}</span></div>`}$('#moveList').innerHTML=html;$('#moveList').scrollTop=$('#moveList').scrollHeight}
 function renderCaptured(){if(!game)return;const history=game.history({verbose:true}),lost={w:[],b:[]};history.forEach(move=>{if(move.captured)lost[move.color].push(symbols[move.color==='w'?'b':'w'][move.captured])});$('#captured').textContent=(lost.w.join('')||'—')+'　'+lost.b.join('')}
-function updateStatus(){if(!game)return;const over=game.isGameOver();$('#turnText').textContent=over?t('gameComplete'):(game.turn()===player?t('yourTurn'):(thinking?t('engineTurn'):t('waiting')));$('#turnDot').style.background=game.turn()===player?'#91c4a3':'#d7b980';let message=t('yourMove');if(game.isCheckmate())message=t('checkmate');else if(game.isDraw())message=t('draw');else if(game.isCheck())message=t('check');else if(game.turn()!==player)message=thinking?t('engineTurn'):t('waiting');else if(!engineReady&&!fallbackMode)message=t('engineLoading');else if(fallbackMode&&game.turn()!==player)message=t('fallbackTurn');$('#message').textContent=message;if(over){stopClock();$('#undo').disabled=true;setTimeout(showResult,320)}else{$('#undo').disabled=!game.history().length||thinking}}
+function updateStatus(){if(!game)return;const over=game.isGameOver();if(gameMode==='online'&&!over){$('#turnText').textContent=game.turn()===player?(lang==='az'?'Sənin növbəndir':'Your turn'):(lang==='az'?'Rəqibin növbəsidir':'Opponent’s turn');$('#turnDot').style.background=game.turn()===player?'#91c4a3':'#d7b980';$('#message').textContent=game.turn()===player?(lang==='az'?'Gedişini et.':'Make your move.'):(lang==='az'?'Rəqibin gedişi gözlənilir…':'Waiting for opponent’s move…');$('#undo').disabled=true;return}$('#turnText').textContent=over?t('gameComplete'):(game.turn()===player?t('yourTurn'):(thinking?t('engineTurn'):t('waiting')));$('#turnDot').style.background=game.turn()===player?'#91c4a3':'#d7b980';let message=t('yourMove');if(game.isCheckmate())message=t('checkmate');else if(game.isDraw())message=t('draw');else if(game.isCheck())message=t('check');else if(game.turn()!==player)message=thinking?t('engineTurn'):t('waiting');else if(!engineReady&&!fallbackMode)message=t('engineLoading');else if(fallbackMode&&game.turn()!==player)message=t('fallbackTurn');$('#message').textContent=message;if(over){stopClock();$('#undo').disabled=true;setTimeout(showResult,320)}else{$('#undo').disabled=!game.history().length||thinking}}
 function showResult(){let title=t('drawTitle'),text=t('drawResult');if(game.isCheckmate()){const won=game.turn()!==player;title=won?t('victory'):t('defeat');text=won?t('youWon'):t('youLost')}$('#resultTitle').textContent=title;$('#resultText').textContent=text;$('#overlay').style.display='grid';playSound('result')}
 function formatClock(seconds){return timeLimit?`${Math.floor(seconds/60)}:${String(seconds%60).padStart(2,'0')}`:'∞'}
 function updateClocks(){const opponent=player==='w'?'b':'w';$('#topClock').textContent=formatClock(remaining[opponent]);$('#bottomClock').textContent=formatClock(remaining[player]);$('#topClock').classList.toggle('active',game&&game.turn()===opponent);$('#bottomClock').classList.toggle('active',game&&game.turn()===player);$('#topClock').classList.toggle('low',timeLimit&&remaining[opponent]<=10);$('#bottomClock').classList.toggle('low',timeLimit&&remaining[player]<=10)}
